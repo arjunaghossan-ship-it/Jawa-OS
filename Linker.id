@@ -1,0 +1,12 @@
+OUTPUT_FORMAT(binary)
+SECTIONS
+{
+    . = 0x10000; /* Alamat fisik memori 0x1000:0000 */
+    
+    .text : {
+        hasil/gdt.o(.text)  /* GDT wajib berada di bagian paling atas biner! */
+        *(.text)
+    }
+    .data : { *(.data) }
+    .bss  : { *(.bss) }
+}
