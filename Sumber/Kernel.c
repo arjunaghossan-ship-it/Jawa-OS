@@ -1,58 +1,118 @@
-// Alamat memori grafis VESA 1024x768 32-bit (Sesuaikan jika layar QEMU hitam/kosong)
-#define LFB_ALAMAT (unsigned int*)0xFD000000 
+#define LAYAR ((unsigned char*)0xA0000)
+#define LEBAR 320
+#define DHUWUR 200
 
-// Definisi Warna (Format Hex RGB: 0x00RRGGBB)
-#define WARNA_LATAR_DESKTOP 0x001A4D2E  // Hijau Botol Estetik
-#define WARNA_JENDELA       0x00DFDFDF  // Abu-abu Klasik
-#define WARNA_BILAH_JUDUL   0x00000080  // Biru Tua
-#define WARNA_TOMBOL_METU   0x00FF0000  // Merah (Tombol Keluar)
+#define IJO_TUA 2
+#define IJO 10
+#define KREM 14
+#define COKLAT 4
+#define IRU 5
+#define PUTIH 15
 
-void nggawe_kotak(int x, int y, int lebar, int tinggi, unsigned int warna);
-void nggawe_desktop_jawa();
-void nggawe_jendela_jawa(int x, int y, int lebar, int tinggi);
-
-void main() {
-    // 1. Gambar latar belakang Desktop Jawa
-    nggawe_desktop_jawa();
-
-    // 2. Gambar Jendela UI Utama di tengah layar (Koordinat X=300, Y=200)
-    nggawe_jendela_jawa(300, 200, 450, 300);
-
-    // Loop selamanya agar sistem tetap menyala
-    while(1);
-}
-
-// Fungsi dasar mewarnai area kotak berdasarkan piksel
-void nggawe_kotak(int x, int y, int lebar, int tinggi, unsigned int warna) {
-    unsigned int* layar = LFB_ALAMAT;
-    for (int i = 0; i < tinggi; i++) {
-        for (int j = 0; j < lebar; j++) {
-            // Rumus index pixel pada resolusi layar lebar 1024
-            layar[(y + i) * 1024 + (x + j)] = warna;
+static void kotak(int x, int y, int lebar, int dhuwur, unsigned char warna) {
+    int baris;
+    int kolom;
+    for (baris = 0; baris < dhuwur; baris++) {
+        for (kolom = 0; kolom < lebar; kolom++) {
+            LAYAR[(y + baris) * LEBAR + x + kolom] = warna;
         }
     }
 }
 
-// Fungsi menggambar background Desktop dan Taskbar bawah
-void nggawe_desktop_jawa() {
-    // Mewarnai seluruh layar 1024x768 dengan warna hijau botol
-    nggawe_kotak(0, 0, 1024, 768, WARNA_LATAR_DESKTOP);
-    
-    // Nggawe 'Bilah Ngisor' (Taskbar) di bagian paling bawah layar
-    nggawe_kotak(0, 728, 1024, 40, WARNA_JENDELA);
-    
-    // Nggawe 'Tombol Wiwit' (Start Button) di pojok kiri bawah
-    nggawe_kotak(5, 733, 80, 30, 0x00C0C0C0);
+static void pigura(int x, int y, int lebar, int dhuwur, unsigned char warna) {
+    kotak(x, y, lebar, 1, warna);
+    kotak(x, y + dhuwur - 1, lebar, 1, warna);
+    kotak(x, y, 1, dhuwur, warna);
+    kotak(x + lebar - 1, y, 1, dhuwur, warna);
 }
 
-// Fungsi menggambar komponen Jendela Aplikasi (Caliṅan)
-void nggawe_jendela_jawa(int x, int y, int lebar, int tinggi) {
-    // Latar belakang isi jendela (Abu-abu)
-    nggawe_kotak(x, y, lebar, tinggi, WARNA_JENDELA);
-    
-    // Bilah judul atas (Title Bar) jendela
-    nggawe_kotak(x, y, lebar, 30, WARNA_BILAH_JUDUL);
-    
-    // Tombol silang / keluar ("Metu") di pojok kanan atas jendela
-    nggawe_kotak(x + lebar - 25, y + 5, 20, 20, WARNA_TOMBOL_METU);
+static void aksara_jawa(int x, int y, unsigned char warna) {
+    kotak(x + 2, y, 2, 16, warna);
+    kotak(x + 4, y + 2, 7, 2, warna);
+    kotak(x + 8, y + 4, 3, 5, warna);
+    kotak(x + 4, y + 8, 7, 2, warna);
+    kotak(x + 6, y + 10, 3, 6, warna);
+    kotak(x + 14, y + 2, 2, 14, warna);
+    kotak(x + 16, y + 2, 6, 2, warna);
+    kotak(x + 20, y + 4, 2, 10, warna);
+    kotak(x + 16, y + 12, 6, 2, warna);
+}
+
+static const unsigned char huruf[5][7] = {
+    {14, 17, 17, 31, 17, 17, 17}, {17, 27, 21, 21, 17, 17, 17},
+    {17, 17, 17, 21, 21, 27, 17}, {14, 17, 17, 17, 17, 17, 14},
+    {31, 16, 16, 30, 1, 1, 31}
+};
+
+static void huruf_judul(int x, int y, int indeks, unsigned char warna) {
+    int baris;
+    int kolom;
+    for (baris = 0; baris < 7; baris++) {
+        for (kolom = 0; kolom < 5; kolom++) {
+            if (huruf[indeks][baris] & (1 << (4 - kolom))) {
+                kotak(x + kolom * 2, y + baris * 2, 2, 2, warna);
+            }
+        }
+    }
+}
+
+static void judul(void) {
+    huruf_judul(24, 5, 0, KREM);
+    huruf_judul(36, 5, 1, KREM);
+    huruf_judul(48, 5, 2, KREM);
+    huruf_judul(60, 5, 0, KREM);
+    huruf_judul(78, 5, 3, KREM);
+    huruf_judul(90, 5, 4, KREM);
+}
+
+static const unsigned char font[10][7] = {
+    {14, 17, 19, 21, 25, 17, 14}, {4, 12, 4, 4, 4, 4, 14},
+    {14, 17, 1, 2, 4, 8, 31}, {30, 1, 1, 14, 1, 1, 30},
+    {2, 6, 10, 18, 31, 2, 2}, {31, 16, 16, 30, 1, 1, 30},
+    {6, 8, 16, 30, 17, 17, 14}, {31, 1, 2, 4, 8, 8, 8},
+    {14, 17, 17, 14, 17, 17, 14}, {14, 17, 17, 15, 1, 2, 12}
+};
+
+static void digit(int x, int y, int angka, unsigned char warna, int skala) {
+    int baris;
+    int kolom;
+    for (baris = 0; baris < 7; baris++) {
+        for (kolom = 0; kolom < 5; kolom++) {
+            if (font[angka][baris] & (1 << (4 - kolom))) {
+                kotak(x + kolom * skala, y + baris * skala, skala, skala, warna);
+            }
+        }
+    }
+}
+
+static void angka(int x, int y, int nilai, unsigned char warna, int skala) {
+    digit(x, y, (nilai / 10) % 10, warna, skala);
+    digit(x + 6 * skala, y, nilai % 10, warna, skala);
+}
+
+static void gambar_desktop(void) {
+    kotak(0, 0, LEBAR, DHUWUR, IJO_TUA);
+    kotak(0, 0, LEBAR, 24, COKLAT);
+    kotak(0, 176, LEBAR, 24, COKLAT);
+    judul();
+    kotak(12, 38, 296, 124, KREM);
+    pigura(12, 38, 296, 124, COKLAT);
+    kotak(18, 44, 284, 18, COKLAT);
+    kotak(287, 48, 9, 9, IRU);
+    kotak(28, 72, 90, 62, IJO);
+    pigura(28, 72, 90, 62, COKLAT);
+    aksara_jawa(47, 84, KREM);
+    kotak(136, 72, 148, 62, PUTIH);
+    pigura(136, 72, 148, 62, COKLAT);
+    angka(164, 88, 13, COKLAT, 3);
+    angka(164, 112, 20, COKLAT, 2);
+    kotak(0, 180, 74, 16, IJO);
+    pigura(0, 180, 74, 16, KREM);
+    kotak(246, 180, 74, 16, IJO);
+    pigura(246, 180, 74, 16, KREM);
+}
+
+void main(void) {
+    gambar_desktop();
+    while (1) { }
 }

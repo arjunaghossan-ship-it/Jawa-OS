@@ -12,7 +12,11 @@ start:
     mov ss, ax
     mov sp, 0x7C00
 
-    ; 3. MUAT KERNEL & GDT SAKING DISK KE MEMORI (0x1000:0x0000)
+    ; 3. Aktifake mode VGA 320x200 256 warna kanggo framebuffer
+    mov ax, 0x0013
+    int 0x10
+
+    ; 4. MUAT KERNEL & GDT SAKING DISK KE MEMORI (0x1000:0x0000)
     mov bx, 0x1000          
     mov es, bx
     xor bx, bx
@@ -29,7 +33,7 @@ start:
     xor ax, ax
     mov es, ax
 
-    ; 4. LOMPAT LANGSUNG KE KODE GDT (Diletakkan tepat di awal sektor ke-2 / memori 0x10000)
+    ; 5. LOMPAT LANGSUNG KE KODE GDT (Diletakkan tepat di awal sektor ke-2 / memori 0x10000)
     jmp 0x1000:0000
 
 .disk_error:
