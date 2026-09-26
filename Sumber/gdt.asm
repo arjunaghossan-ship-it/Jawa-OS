@@ -22,9 +22,10 @@ inisialisasi_pm:
     mov ebp, 0x90000            ; Set Stack Pointer 32-bit
     mov esp, ebp
 
-    ; Melompat langsung ke alamat fungsi main() C yang sudah di-link di memori berikutnya
-    extern main
-    call main                   
+    ; Format flat binary tidak mendukung simbol eksternal. main() harus
+    ; ditempatkan pada alamat tetap oleh proses build.
+    mov eax, MAIN_ADDRESS       ; Muat alamat absolut main() ke register
+    call eax
     jmp $
 
 ; --- STRUKTUR TABEL GDT ---
@@ -46,3 +47,4 @@ penunjuk_gdt:
 
 KODE_SEGMENT equ 0x08
 DATA_SEGMENT equ 0x10
+MAIN_ADDRESS equ 0x1000
