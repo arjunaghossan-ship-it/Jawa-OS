@@ -1,6 +1,7 @@
 Sistem Operasi Gawean Dewe, Soko nol, Nganggo Assembly & C
 
 > "OS ne wong Jowo, Anti Ribet"
+Lisence
 
 
 ### ⚜ Fitur Saiki
@@ -59,4 +60,4 @@ MIT Lisence - Bebas dinggo, diutak-atik, didol, sing penting nyebut jenenge
 
 🤝 Melu Ngewangi
 Monggo PR! Sing jago OSDev ayo agbung.
-
+make
