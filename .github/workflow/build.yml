@@ -1,0 +1,13 @@
+name: Build JawaOS
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt install nasm -y
+      - run: nasm -f bin boot.asm -o jawaos.bin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jawaos-bin
+          path: jawaos.bin
