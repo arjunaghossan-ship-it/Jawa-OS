@@ -1,58 +1,86 @@
 [org 0x7c00]
-BITS 16
-
+[bits 16]
 start:
-    ; 1. AMANAKAN DRIVE NUMBER SAKING BIOS
-    mov [DRIVE_SISTEM], dl
-
-    ; 2. INSIALISASI STACK POINTER
-    xor ax, ax
-    mov es, ax
-    mov ds, ax
-    mov ss, ax
-    mov sp, 0x7C00
-
-    ; 3. Aktifake mode VGA 320x200 256 warna kanggo framebuffer
-    mov ax, 0x0013
-    int 0x10
-
-    ; 4. MUAT KERNEL & GDT SAKING DISK KE MEMORI (0x1000:0x0000)
-    mov bx, 0x1000          
-    mov es, bx
-    xor bx, bx
-    
-    mov ah, 0x02            ; Fungsi BIOS: Moco Sektor Disk
-    mov al, 20              ; Moco 20 sektor (GDT + Kernel C)
-    mov ch, 0x00            ; Cylinder 0
-    mov dh, 0x00            ; Head 0
-    mov cl, 0x02            ; Mulai moco soko Sektor 2 (Tepat setelah bootloader)
-    mov dl, [DRIVE_SISTEM]  
-    int 0x13
-    jc .disk_error          
-
-    xor ax, ax
-    mov es, ax
-
-    ; 5. LOMPAT LANGSUNG KE KODE GDT (Diletakkan tepat di awal sektor ke-2 / memori 0x10000)
-    jmp 0x1000:0000
-
-.disk_error:
-    mov si, pesen_disk_error
-    call cetak_teks_16bit
-    jmp $
-
-cetak_teks_16bit:
-    lodsb
-    or al, al
-    jz .rampung
-    mov ah, 0x0e
-    int 0x10
-    jmp cetak_teks_16bit
-.rampung:
-    ret
-
-DRIVE_SISTEM     db 0
-pesen_disk_error db 'Eror: Gagal moco komponen saking disk!', 0x0D, 0x0A, 0
-
-times 510-($-$$) db 0
-dw 0xaa55
+ xor ax,ax
+ mov ds,ax
+ mov es,ax
+ mov sp,0x7c00
+ mov si,msg1
+ call print
+main:
+ mov si,prompt
+ call print
+ mov di,buf
+ call input
+ mov si,buf
+ mov di,c1
+ call cmp
+ je help
+ mov di,c2
+ call cmp
+ je resik
+ mov si,msg2
+ call print
+ jmp main
+help:
+ mov si,msg3
+ call print
+ jmp main
+resik:
+ mov ah,0
+ mov al,3
+ int 0x10
+ mov si,msg1
+ call print
+ jmp main
+print:
+ lodsb
+ or al,al
+ jz.d
+ mov ah,0x0e
+ int 0x10
+ jmp print
+.d: ret
+input:
+ xor cx,cx
+.l:
+ mov ah,0
+ int 0x16
+ cmp al,13
+ je.e
+ cmp al,8
+ je.b
+ mov ah,0x0e
+ int 0x10
+ stosb
+ inc cx
+ jmp.l
+.b:
+ cmp cx,0
+ je.l
+ dec di
+ dec cx
+ mov ah,0x0e
+ mov al,8
+ int 0x10
+ mov al,32
+ int 0x10
+ mov al,8
+ int 0x10
+ jmp.l
+.e:
+ mov byte [di],0
+ mov si,nl
+ call print
+ ret
+cmp:
+ pusha
+.l:
+ mov al,[si]
+ mov bl,[di]
+ cmp al,bl
+ jne.n
+ cmp al,0
+ je.y
+ inc si
+ inc di
