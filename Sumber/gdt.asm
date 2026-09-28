@@ -1,14 +1,15 @@
 [bits 16]
+[org 0x7C00]
 
 mulai_gdt_setup:
-    cli                         ; Matikan interrupt sementara
-    lgdt [penunjuk_gdt]         ; Muat tabel GDT ke dalam prosesor
-    
+    cli
+    lgdt [penunjuk_gdt]
+
     mov eax, cr0
     or eax, 0x1
-    mov cr0, eax                ; Masuk Protected Mode 32-bit
-    
-    jmp KODE_SEGMENT:dword inisialisasi_pm
+    mov cr0, eax
+
+    jmp KODE_SEGMENT:inisialisasi_pm ; HAPUS dword nya!
 
 [bits 32]
 inisialisasi_pm:
@@ -19,24 +20,23 @@ inisialisasi_pm:
     mov fs, ax
     mov gs, ax
 
-    mov ebp, 0x90000            ; Set Stack Pointer 32-bit
+    mov ebp, 0x90000
     mov esp, ebp
 
-    ; Format flat binary tidak mendukung simbol eksternal. main() harus
-    ; ditempatkan pada alamat tetap oleh proses build.
-    mov eax, MAIN_ADDRESS       ; Muat alamat absolut main() ke register
-    call eax
+    ; Buat test dulu, jangan langsung call 0x1000
+    ; Cetak huruf P (Protected) putih di pojok kiri atas
+    mov byte [0xB8000], 'P'
+    mov byte [0xB8001], 0x0F
+    mov byte [0xB8002], 'M'
+    mov byte [0xB8003], 0x0F
+
     jmp $
 
-; --- STRUKTUR TABEL GDT ---
+; --- GDT ---
 alamat_gdt:
-    dd 0x0, 0x0                 ; Null Descriptor
-    
-    ; Code Segment Descriptor
+    dd 0x0, 0x0
     dw 0xFFFF, 0x0
     db 0x0, 10011010b, 11001111b, 0x0
-
-    ; Data Segment Descriptor
     dw 0xFFFF, 0x0
     db 0x0, 10010010b, 11001111b, 0x0
 alamat_gdt_pungkasan:
@@ -47,4 +47,6 @@ penunjuk_gdt:
 
 KODE_SEGMENT equ 0x08
 DATA_SEGMENT equ 0x10
-MAIN_ADDRESS equ 0x1000
+
+times 510-($-$$) db 0
+dw 0xAA55
