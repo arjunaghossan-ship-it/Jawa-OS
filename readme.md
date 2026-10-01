@@ -3,7 +3,8 @@
 OS soko nol nganggo Assembly
 
 ### 💻Cara Mlakune
-make
+make run
+
 sudo apt install nasm qemu-system-x86_64 make -y
 
 nasm -f bin boot.asm -o boot.bin
