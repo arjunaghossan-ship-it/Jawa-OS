@@ -1,34 +1,57 @@
-# JawaOS - OS e Wong Jowo                                                                                                    
+# JawaOS - OS Jawa Pertama 🇮🇩
 
-OS soko nol nganggo Assembly
+OS eksperimental berbahasa Jawa, di-build dari nol pake C & Assembly.
 
-### 💻Cara Mlakune
+> "Kernel Panic? Alah, Sistem e Error Cak!"
+
+### ✨ Fitur
+- [x] Bootloader GRUB
+- [x] Pesan error full bahasa Jawa (`panic.h`)
+- [x] 32-bit Protected Mode
+
+### 📁 Struktur Folder
 ```
-# install qemu dulu
-sudo apt install nasm qemu-system-x86_64 make -y
+JawaOS/
+├── Makefile
+├── linker.ld
+├── grub.cfg
+└── Sumber/
+    ├── boot.asm
+    ├── kernel.c
+    └── panic.h
+```
 
-# Compile dulu boot.asm nya
-nasm -f bin boot.asm -o boot.bin
+### 🚀 Cara Build & Run
 
-# Baru jalanin
-qemu-system-x86_64 boot.bin```
+Pastikan udah install `gcc`, `nasm`, `qemu`, `grub-mkrescue`
 
-
-## Cara Nge-build JawaOS
-
-```b
-
-# clone dulu
-git clone https://github.com/username/JawaOS.git
+```bash
+# 1. Clone repo
+git clone https://github.com/username-mu/JawaOS.git
 cd JawaOS
 
-# build iso nya
+# 2. Build jadi ISO
 make
 
-# jalanin di qemu
+# 3. Jalanin di QEMU
 make run
 
-# bersihin build
+# 4. Bersih-bersih
 make clean
 ```
 
+### 🧠 Alur Build
+`.c/.asm` -> `.o` -> `.elf` -> `.iso` -> QEMU
+
+### 🤝 Kontribusi
+Pull request welcome, lur!
+
+---
+Dibuat dengan kopi dan begadang oleh [Nama Mu]
+```
+
+Udah ada tombol copy semua itu di Github nanti.
+
+Tinggal ganti `username-mu` sama `Nama Mu` tok.
+
+Mau tak tambahin badge keren kaya `Build Passing` juga?
