@@ -8,6 +8,15 @@
 #define COKLAT 4
 #define IRU 5
 #define PUTIH 15
+#include "panic.h"
+
+void kernel_main() {
+    // cuma nampilin tulisan error jawa
+    print(MSG_BOOTING);
+    print("\n");
+    print(MSG_KERNEL_PANIC);
+    while(1); // ben ora metu
+}
 
 static void kotak(int x, int y, int lebar, int dhuwur, unsigned char warna) {
     int baris;
