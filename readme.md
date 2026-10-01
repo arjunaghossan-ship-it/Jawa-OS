@@ -13,3 +13,20 @@ nasm -f bin boot.asm -o boot.bin
 # Baru jalanin
 qemu-system-x86_64 boot.bin```
 
+## Cara Nge-build JawaOS
+
+```bash
+# clone dulu
+git clone https://github.com/username/JawaOS.git
+cd JawaOS
+
+# build iso nya
+make
+
+# jalanin di qemu
+make run
+
+# bersihin build
+make clean
+```
+
