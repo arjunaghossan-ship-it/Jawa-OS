@@ -27,7 +27,7 @@ Pastikan udah install `gcc`, `nasm`, `qemu`, `grub-mkrescue`
 
 ```bash
 # 1. Clone repo
-git clone https://github.com/username-mu/JawaOS.git
+git clone https://github.com/arjunaghossan-ship-it/JawaOS.git
 cd JawaOS
 
 # 2. Build jadi ISO
@@ -48,10 +48,3 @@ Pull request welcome, lur!
 
 ---
 Dibuat dengan kopi dan begadang oleh Arjuna
-```
-
-Udah ada tombol copy semua itu di Github nanti.
-
-Tinggal ganti `username-mu` sama `Nama Mu` tok.
-
-Mau tak tambahin badge keren kaya `Build Passing` juga?
