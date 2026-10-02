@@ -46,5 +46,4 @@ make clean
 ### 🤝 Kontribusi
 Pull request welcome, lur!
 
----
-Dibuat dengan kopi dan begadang oleh Arjuna
+--Dibuat dengan air putih dan begadang oleh Arjuna
