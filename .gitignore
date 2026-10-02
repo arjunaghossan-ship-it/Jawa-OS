@@ -1,7 +1,6 @@
-# Generated build output
-/Hasil/
-/build/
-/iso_root/os_jawa.img
-
-# Compiler and linker artifacts
+build/
+iso/
+Hasil/*.bin
+Hasil/*.elf
+Hasil/*.img
 *.o
