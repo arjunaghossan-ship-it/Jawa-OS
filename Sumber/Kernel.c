@@ -8,15 +8,15 @@
 #define COKLAT 4
 #define IRU 5
 #define PUTIH 15
-#include "panic.h"
+#ifndef PANIC_H
+#define PANIC_H
 
-void kernel_main() {
-    // cuma nampilin tulisan error jawa
-    print(MSG_BOOTING);
-    print("\n");
-    print(MSG_KERNEL_PANIC);
-    while(1); // ben ora metu
-}
+void print(const char* str);
+
+#define MSG_BOOTING "Booting JawaOS..."
+#define MSG_KERNEL_PANIC "KERNEL PANIC! Ono sing error lur"
+
+#endif
 
 static void kotak(int x, int y, int lebar, int dhuwur, unsigned char warna) {
     int baris;
