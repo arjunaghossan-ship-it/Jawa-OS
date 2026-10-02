@@ -47,7 +47,7 @@ make clean
 Pull request welcome, lur!
 
 ---
-Dibuat dengan kopi dan begadang oleh [Nama Mu]
+Dibuat dengan kopi dan begadang oleh Arjuna
 ```
 
 Udah ada tombol copy semua itu di Github nanti.
