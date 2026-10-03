@@ -26,11 +26,11 @@ Sertakan:
 1. Deskripsi bug
 2. Langkah reproduksi
 3. Dampak (apa iso crash, hang, eksekusi kode)
-4. Versi JavaOS + QEMU
+4. Versi JawaOS + QEMU
 
 ## Janji Kita
 
-1. Tak respon maksimal 2x24 jam.
+1. Tak respon maksimal 2x24 jam(Semoga).
 2. Nek valid, tak fix neng branch `security-fix`.
 3. Kowe bakal tak cantumke neng `CREDITS.md` sebagai penemu (lek gelem).
 4. Ojo disebar dulu sebelum fix rilis.
