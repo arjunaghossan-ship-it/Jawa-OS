@@ -13,6 +13,7 @@ _start:
     cli
     mov esp, stack_top
     call _kernel_main
+    jmp $
 .hang:
     hlt
     jmp .hang
