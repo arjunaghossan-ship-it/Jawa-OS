@@ -45,13 +45,47 @@ char get_key(){
 char buf[64];
 int bi=0;
 
+// Tambahin variabel global neng duwur dewe
+char current_dir[64] = "/";
+
+// Neng jero fungsi handle_command(command)
+
+if (strcmp(command, "ls") == 0) {
+    print("Isi direktori ");
+    print(current_dir);
+    print(":\n");
+    print(" - kernel.elf\n");
+    print(" - boot/\n");
+    print(" - readme.txt\n");
+}
+else if (strncmp(command, "cd ", 3) == 0) {
+    char* target = command + 3; // ambil setelah "cd "
+    if (strcmp(target, "..") == 0) {
+        strcpy(current_dir, "/");
+        print("Pindah ke /\n");
+    } else if (strlen(target) > 0) {
+        strcpy(current_dir, "/");
+        strcat(current_dir, target);
+        print("Pindah ke ");
+        print(current_dir);
+        print("\n");
+    } else {
+        print("Pake: cd nama_folder\n");
+    }
+}
+else if (strncmp(command, "echo ", 5) == 0) {
+    print(command + 5);
+    print("\n");
+}
+
 void cmd(){
  buf[bi]=0;
  if(bi==0) return;
  puts("\n");
- if(!strcmp(buf,"help")) puts("cmd: help, clear, about, reboot\n");
+ if(!strcmp(buf,"help")) puts("cmd: help, clear, about, reboot, echo\n");
  else if(!strcmp(buf,"clear")) clear();
- else if(!strcmp(buf,"about")) puts("JavaOS v0.2 by HP - Bonang, Banten\n");
+ else if(!strcmp(buf,"about")) puts("JavaOS v0.2 by arjunaghossan-ship-it(BroklyPoly) - Bonang, Banten\n");
+ else if(!strcmp(buf, "echo")){puts(buf); puts("\n");}
  else if(!strcmp(buf,"reboot")){outb(0x64,0xFE); while(1){}}
  else {puts("unknown: "); puts(buf); puts("\n");}
  bi=0;
@@ -61,10 +95,10 @@ void gambar_desktop(){clear(); puts("JavaOS Desktop OK!\n"); puts("Type 'help' f
 
 void kernel_main(void){
  gambar_desktop();
- puts("> ");
+ puts("$ ");
  while(1){
   char k=get_key();
-  if(k=='\n'){cmd(); puts("> ");}
+  if(k=='\n'){cmd(); puts("$ ");}
   else if(k=='\b'){if(bi>0){bi--; putc('\b');}}
   else{if(bi<63){buf[bi++]=k; putc(k);}}
  }
