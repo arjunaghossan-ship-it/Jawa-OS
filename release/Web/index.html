@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101114">
+    <meta name="description" content="JawaOS adalah sistem operasi open-source minimalis yang dibangun dari nol menggunakan C dan Assembly.">
+    <title>JawaOS — Open Source Operating System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="#home" aria-label="JawaOS beranda">
+            <span class="brand-mark" aria-hidden="true">J</span>
+            <span>Jawa<span class="brand-highlight">OS</span></span>
+        </a>
+        <nav class="desktop-nav" aria-label="Navigasi utama">
+            <a class="nav-link is-active" href="index.html">Beranda</a>
+            <a class="nav-link" href="version.html">Versi</a>
+            <a class="nav-link" href="index.html#quick-start">Quick start</a>
+        </nav>
+        <div class="header-actions">
+            <a class="header-link" href="https://github.com/arjunaghossan-ship-it/Jawa-OS" target="_blank" rel="noreferrer">
+                GitHub <span aria-hidden="true">↗</span>
+            </a>
+            <details class="mobile-menu">
+                <summary aria-label="Buka menu navigasi">
+                    <span></span><span></span><span></span>
+                </summary>
+                <nav class="mobile-nav" aria-label="Navigasi utama">
+                    <a href="#home">Beranda</a>
+                    <a href="#features">Fitur</a>
+                    <a href="#quick-start">Quick Start</a>
+                    <a href="https://github.com/arjunaghossan-ship-it/Jawa-OS" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+                </nav>
+            </details>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-copy">
+                <span class="eyebrow"><span class="status-dot"></span> OPEN SOURCE · DIBANGUN DARI NOL</span>
+                <h1>Sistem operasi yang dimulai dari <span>baris pertama.</span></h1>
+                <p class="hero-description">
+                    Sistem operasi minimalis yang dirancang dengan rasa ingin tahu,
+                    dibangun menggunakan C dan Assembly, dan dijalankan oleh otomatisasi Makefile.
+                </p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="version.html" target="_blank" rel="noreferrer">
+                        <span aria-hidden="true">↓</span> Download .ISO
+                    </a>
+                    <a class="button button-secondary" href="https://github.com/arjunaghossan-ship-it/Jawa-OS" target="_blank" rel="noreferrer">
+                        <span aria-hidden="true">⌘</span> Lihat source code
+                    </a>
+                    <a class="button button-tretiary" href="release/JawaOS-v0.2-cli.tar.gz" target="_blank" rel="noreferrer">
+                        <span aria-hidden="true">📦</span> Download CLI Version
+                    </a>
+                </div>
+                <p class="checksum">
+                    <span class="checksum-label">SHA-256</span>
+                    <code>e3b0c44298fc1c149afbf4c8996fb92427a...</code>
+                </p>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <div class="orbit orbit-outer"></div>
+                <div class="orbit orbit-inner"></div>
+                <div class="sun-core"><span>J</span></div>
+                <span class="floating-tag tag-kernel">KERNEL <b>C</b></span>
+                <span class="floating-tag tag-boot">BOOT <b>NASM</b></span>
+                <span class="floating-tag tag-open">✳ OPEN SOURCE</span>
+            </div>
+        </section>
+
+        <section class="details" aria-label="Informasi proyek">
+            <article class="panel specs-panel" id="features">
+                <div class="section-heading">
+                    <span class="section-index">01 / OVERVIEW</span>
+                    <h2>Dibangun dengan fondasi yang kuat.</h2>
+                </div>
+                <ul class="spec-list">
+                    <li><span class="spec-icon">⌘</span><span><small>BAHASA KERNEL</small><strong>C <i>GCC Cross-Compiler</i></strong></span></li>
+                    <li><span class="spec-icon">↗</span><span><small>BOOTLOADER</small><strong>Assembly <i>NASM x86</i></strong></span></li>
+                    <li><span class="spec-icon">⚙</span><span><small>OTOMATISASI</small><strong>GNU Make <i>&amp; Shell</i></strong></span></li>
+                    <li><span class="spec-icon">◇</span><span><small>LISENSI</small><strong>Open Source <i>MIT / GPL</i></strong></span></li>
+                </ul>
+            </article>
+
+            <article class="panel terminal-panel" id="quick-start">
+                <div class="section-heading">
+                    <span class="section-index">02 / QUICK START</span>
+                    <h2>Coba di mesin Anda.</h2>
+                </div>
+                <p>Jalankan image ISO menggunakan emulator QEMU:</p>
+                <div class="terminal-window">
+                    <div class="terminal-bar"><span></span><span></span><span></span><small>TERMINAL</small></div>
+                    <code><span class="terminal-prompt">$</span> qemu-system-x86_64 -cdrom jawaos.iso</code>
+                </div>
+                <span class="terminal-note"><span class="status-dot"></span> Siap dijalankan di emulator</span>
+            </article>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="footer-brand" href="#home">JawaOS</a>
+        <p>&copy; 2026 JawaOS Project. Dibuat dengan dedikasi tingkat rendah.</p>
+        <span class="footer-badge">MADE FOR THE CURIOUS <span>✳</span></span>
+    </footer>
+</body>
+</html>
