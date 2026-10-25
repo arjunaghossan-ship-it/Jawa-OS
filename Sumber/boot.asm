@@ -6,8 +6,6 @@ align 4
     dd -(0x1BADB002 + 0x00)
 section .text
 global _start
-global _inb
-global _outb
 extern _kernel_main
 _start:
     cli
