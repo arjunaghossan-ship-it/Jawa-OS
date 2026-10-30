@@ -7,7 +7,7 @@
 
 # JawaOS - A Javanese Inspired Operating System
 
-> "Alon-alon waton kelakon" - A simple 32-bit OS from Binong, Banten, Indonesia.
+> "Alon-alon waton kelakon" - A simple 32-bit OS from Bonang, Banten, Indonesia.
 
 JawaOS is an experimental 32-bit operating system that runs on QEMU. Built with MSYS2 UCRT64, no Hyper-V required - perfect for legacy HP Pavilion laptops.
 
