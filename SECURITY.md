@@ -1,49 +1,49 @@
 # Security Policy - JawaOS
 
-## Tentang JawaOS
-JawaOS adalah project hobi OS 32-bit dari Binong. Saiki iseh tahap awal (bootloader + VGA + keyboard), jadi belum ada fitur security beneran kayak user privilege, memory protection, dll.
+## About JawaOS
+JawaOS is a 32-bit OS hobby project from Bonang. It is still in the early stages (bootloader + VGA + keyboard), so there are no real security features like user privilege, memory protection, etc.
 
-Tapi tetep, kita anggap serius lek ono celah.
+But still, we take it seriously that there is a gap.
 
-## Versi yang Didukung
+## Supported Versions
 
-| Versi | Status Keamanan |
+| Version | Security Status |
 | --- | --- |
-| v0.2 (saiki) | ✅ Didukung |
-| < v0.2 | ❌ Tidak didukung |
+| v0.2 (current) | ✅ Supported |
+| < v0.2 | ❌ Not supported |
 
-## Cara Melaporkan Celah
+## How to Report a Gap
 
-Nek kowe nemu bug keamanan (misal: buffer overflow neng `cmd_buffer`, crash pas input, atau bypass neng bootloader), **ojo di-post neng Issue umum.**
+If you find a security bug (for example: buffer overflow in `cmd_buffer`, crash after input, or bypass in bootloader), **don't post it in Public Issue.**
 
-Langsung hubungi:
+Contact directly:
 
 - **Email:** arjuna.ghossan@gmail.com
 - **DM GitHub:** arjunaghossan-ship-it
 - **WhatsApp:** +62 895-3921-64783
 
-Sertakan:
-1. Deskripsi bug
-2. Langkah reproduksi
-3. Dampak (apa iso crash, hang, eksekusi kode)
-4. Versi JawaOS + QEMU
+Include:
+1. Description of the bug
+2. Reproductive steps
+3. Impact (can crash, hang, code execution)
+4. JawaOS + QEMU version
 
-## Janji Kita
+## Our Promise
 
-1. Tak respon maksimal 2x24 jam(Semoga).
-2. Nek valid, tak fix neng branch `security-fix`.
-3. Kowe bakal tak cantumke neng `CREDITS.md` sebagai penemu (lek gelem).
-4. Ojo disebar dulu sebelum fix rilis.
+1. No response maximum 2x24 hours (Hopefully).
+2. If it is valid, do not fix it in `security-fix` branch.
+3. You will not be listed in `CREDITS.md` as an inventor (if you want).
+4. Do not distribute it before the release fix.
 
-## Yang Bukan Celah
+## Which is not a gap
 
-Iki dudu celah, mergo memang durung digawe:
-- Belum ada password / login
-- Belum ada isolasi memory
-- QEMU escape (iku salah QEMU, dudu JawaOS)
+This is not a loophole, because it hasn't been created yet:
+- There is no password / login yet
+- No memory isolation yet
+- QEMU escape (it's QEMU's fault, not JawaOS)
 
-## Terima Kasih
+## Thank you
 
-Suwun wes bantu JawaOS dadi luwih aman. Project cilik soko Bonang iki iso gede mergo kontribusi mu!
+Thank you for helping JawaOS become more secure. Bonang's small project is big because of your contribution!
 ---
 *Bonang, Banten - 2026*
