@@ -1,22 +1,24 @@
-all: kernel.elf
+ASM=nasm
+QEMU=qemu-system-i386
+SRC=jawaos.asm
+IMG=jawaos.img
 
-boot.o: boot.asm
-	nasm -f elf32 boot.asm -o boot.o
+all: $(IMG)
 
-gdt.o: gdt.asm
-	nasm -f elf32 gdt.asm -o gdt.o
+$(IMG): $(SRC)
+	$(ASM) -f bin $(SRC) -o $(IMG)
+	@echo "[OK] JawaOS $(IMG) - 20KB"
 
-kernel.o: kernel.c
-	gcc -ffreestanding -nostdlib -fno-stack-protector -O2 -m32 -c kernel.c -o kernel.o
-
-kernel.bin: boot.o gdt.o kernel.o linker.ld
-	gcc -m32 -T linker.ld -o kernel.bin -ffreestanding -O2 -nostdlib -nostartfiles boot.o gdt.o kernel.o
-
-kernel.elf: kernel.bin
-	objcopy -I pei-i386 -O elf32-i386 kernel.bin kernel.elf 2> /dev/null || objcopy -O elf32-i386 kernel.bin kernel.elf
-
-run: kernel.elf
-	qemu-system-i386 -kernel ./kernel.elf -m 512M
+run: $(IMG)
+	$(QEMU) -fda $(IMG) -boot a -m 128M -display gtk
 
 clean:
-	rm -f *.o kernel.bin
+	rm -f build/*.bin build/*.img *.img
+	@echo "[CLEAN] resik"
+
+list:
+	ls -lh *.asm
+	@echo "--- build/ ---"
+	ls -lh build/ 2>/dev/null || echo "kosong"
+	@echo "--- old/ ---"
+	ls -lh old/ 2>/dev/null || echo "kosong"
