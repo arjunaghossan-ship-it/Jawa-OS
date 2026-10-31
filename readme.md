@@ -5,49 +5,66 @@
   <img src="https://img.shields.io/badge/Platform-QEMU-red?style=for-the-badge" />
 </p>
 
-# JawaOS - A Javanese Inspired Operating System
+<h1 align="center">🇮🇩 JawaOS - A Javanese Inspired Operating System</h1>
 
-> "Alon-alon waton kelakon" - A simple 32-bit OS from Bonang, Banten, Indonesia.
+<p align="center">
+  <i>"Alon-alon waton kelakon" - Slowly but surely, it will be done</i><br>
+  An experimental 32-bit OS from Binong, Banten, Indonesia. No Hyper-V needed.
+</p>
 
-JawaOS is an experimental 32-bit operating system that runs on QEMU. Built with MSYS2 UCRT64, no Hyper-V required - perfect for legacy HP Pavilion laptops.
+<p align="center">
+  <a href="https://hub.xerj.org/contributors/arjunaghossan-ship-it">
+    <img src="https://hub.xerj.org/contributors/arjunaghossan-ship-it/badge.svg" alt="XERJ Corpus Hub contributor" />
+  </a>
+</p>
 
-### Features
+<p align="center">
+  <a href="https://github.com/arjunaghossan-ship-it/Jawa-OS"><img src="https://img.shields.io/github/stars/arjunaghossan-ship-it/Jawa-OS?style=social" /></a>
+  <img src="https://img.shields.io/badge/Made%20in-Banten,%20Indonesia-red" />
+</p>
+
+---
+
+### ✨ Features
 
 - [x] **Multiboot Bootloader** (`boot.asm`) - GRUB compatible
-- [x] **GDT** (`gdt.asm`) - Global Descriptor Table to prevent triple faults
+- [x] **GDT** (`gdt.asm`) - Global Descriptor Table
 - [x] **Freestanding C Kernel** (`kernel.c`) - No stdlib
-- [x] **Embedded Python GUI** (`gui.py`) - Loaded as rodata into kernel
+- [x] **Embedded Python GUI** (`GUI/gui.py`) - Loaded as rodata
 - [ ] JFS - Javanese File System
 - [ ] Wayang Desktop Environment
 - [ ] PS/2 Keyboard Driver
 
-### Project Structure
+### 📁 Project Structure
 
 ```
 JawaOS/
 ├── .gitignore
 ├── README.md
+├── images/
+│   └── screenshot.png
 └── source/
     ├── boot.asm
     ├── gdt.asm
+    ├── kernel.c
     ├── linker.ld
     ├── Makefile
-    ├── kernel.c
     └── GUI/
         ├── gui.c
         └── gui.py
 ```
 
-### Prerequisites
+### 🛠️ Prerequisites
 
-Install **MSYS2** from https://www.msys2.org/, then open **MSYS2 UCRT64** (blue icon).
+1. Install **MSYS2** from https://www.msys2.org/
+2. Open **MSYS2 UCRT64** (blue icon)
 
 ```bash
 pacman -Syu
 pacman -S --needed mingw-w64-ucrt-x86_64-nasm mingw-w64-ucrt-x86_64-qemu mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-binutils make git
 ```
 
-### Build & Run
+### 🚀 Build & Run
 
 ```bash
 git clone https://github.com/arjunaghossan-ship-it/JawaOS.git
@@ -56,45 +73,44 @@ make clean
 make run
 ```
 
-If successful, QEMU window will appear with JawaOS booted.
-
-### Makefile Commands
+### 🔧 Commands
 
 | Command | Description |
 | :--- | :--- |
 | `make` | Build kernel only |
-| `make run` | Build and run in QEMU |
+| `make run` | Build + Run in QEMU with `-accel tcg` |
 | `make clean` | Remove .o and .bin files |
 
-### Troubleshooting
+### ❓ Troubleshooting
 
 **`make: *** No rule to make target 'boot.asm'`**
-You are in the wrong directory. You must `cd source` first.
+```bash
+# you are in root, must enter source/
+cd source
+make run
+```
+
+**`missing separator`**
+Makefile must use TAB, not spaces. Recreate Makefile with TAB indentation.
 
 **`Linker.ld: No such file`**
-Linux/MSYS2 is case-sensitive. Rename it:
 ```bash
 mv Linker.ld linker.ld
 ```
 
-**`GUI vs gui.py`**
-Rename to lowercase:
-```bash
-mv GUI gui.py
-```
+### 🗺️ Roadmap
 
-**QEMU WHPX / Hyper-V Error**
-This build already uses `-accel tcg` in Makefile, so Hyper-V is not required. Safe for locked F10 BIOS.
+- v0.2 - Keyboard & Javanese Shell (`ls` -> `deloken`)
+- v0.3 - Simple File System (JFS)
+- v0.4 - Wayang GUI
 
-### Roadmap
+### 🙏 Acknowledgments
 
-- v0.2 - Keyboard input & Javanese Shell
-- v0.3 - Simple File System
-- v0.4 - Real Wayang GUI
+- [![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/arjunaghossan-ship-it/badge.svg)](https://hub.xerj.org/contributors/arjunaghossan-ship-it) - JawaOS is indexed in XERJ Corpus Hub as AI reference
 
-### License
+### 📜 License
 
 MIT - Free to fork.
 
 ---
-<p align="center">Built with coffee in Bonang, Banten, Indonesia</p>
+<p align="center">Built in Bonang, Banten, Indonesia</p>
