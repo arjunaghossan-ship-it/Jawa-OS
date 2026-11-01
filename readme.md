@@ -9,7 +9,7 @@
 
 <p align="center">
   <i>"Alon-alon waton kelakon" - Slowly but surely, it will be done</i><br>
-  An experimental 32-bit OS from Binong, Banten, Indonesia. No Hyper-V needed.
+  An experimental 32-bit OS from Bonang, Banten, Indonesia. No Hyper-V needed.
 </p>
 
 <p align="center">
