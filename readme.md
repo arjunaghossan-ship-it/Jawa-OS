@@ -72,6 +72,8 @@ cd JawaOS/source
 make clean
 make run
 ```
+<img width="833" height="466" alt="Berhasil-Booting -Perdana" src="https://github.com/user-attachments/assets/a35e1fca-0dcc-4ace-82d6-e715264bbb0e" />
+
 
 ### 🔧 Commands
 
