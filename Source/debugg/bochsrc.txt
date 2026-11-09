@@ -1,0 +1,8 @@
+megs: 32
+romimage: file=D:\Bochs-3.1\Bios-bochs-latest
+vgaromimage: file=D:\Bochs-3.1\VGABIOS-lgpl-latest
+floppya: 1_44=D:\JawaOS\source\jawaos.img, status=inserted
+boot: floppy
+log: bochsout..txt
+mouse: enabled=0
+display_library: win32

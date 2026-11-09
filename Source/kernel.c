@@ -1,14 +1,177 @@
-__asm__(".globl _kernel_main\n.globl kernel_main\n_kernel_main:\nkernel_main:\n");
-char* v=(char*)0xB8000; int cx=0,cy=0; unsigned char col=0x0F;
-unsigned char inb(unsigned short p){unsigned char r; __asm__ volatile("inb %1,%0":"=a"(r):"Nd"(p)); return r;}
-void outb(unsigned short p, unsigned char d){__asm__ volatile("outb %0,%1"::"a"(d),"Nd"(p));}
-void scroll(){if(cy>=25){for(int i=0;i<24*80;i++){v[i*2]=v[(i+80)*2];v[i*2+1]=v[(i+80)*2+1];}for(int i=0;i<80;i++){v[(24*80+i)*2]=' ';v[(24*80+i)*2+1]=col;}cy=24;}}
-void pc(char c){if(c=='\n'){cx=0;cy++;}else if(c=='\b'){if(cx>0){cx--;v[(cy*80+cx)*2]=' ';}}else{v[(cy*80+cx)*2]=c;v[(cy*80+cx)*2+1]=col;cx++;}if(cx>=80){cx=0;cy++;}scroll();}
-void pr(const char* s){for(int i=0;s[i];i++)pc(s[i]);}
-void prc(const char* s, unsigned char c){unsigned char o=col;col=c;pr(s);col=o;}
-void clear(){for(int i=0;i<80*25;i++){v[i*2]=' ';v[i*2+1]=0x0F;}cx=0;cy=0;}
-int strcmp_(const char* a,const char* b){int i=0;while(a[i]&&b[i]&&a[i]==b[i])i++;return a[i]-b[i];}
-int strncmp_(const char* a,const char* b,int n){for(int i=0;i<n;i++){if(a[i]!=b[i])return a[i]-b[i];if(!a[i])return 0;}return 0;}
-char sc2c(unsigned char sc){switch(sc){case 0x02:return '1';case 0x03:return '2';case 0x04:return '3';case 0x05:return '4';case 0x06:return '5';case 0x07:return '6';case 0x08:return '7';case 0x09:return '8';case 0x0A:return '9';case 0x0B:return '0';case 0x1E:return 'a';case 0x1F:return 's';case 0x20:return 'd';case 0x21:return 'f';case 0x22:return 'g';case 0x23:return 'h';case 0x24:return 'j';case 0x25:return 'k';case 0x26:return 'l';case 0x10:return 'q';case 0x11:return 'w';case 0x12:return 'e';case 0x13:return 'r';case 0x14:return 't';case 0x15:return 'y';case 0x16:return 'u';case 0x17:return 'i';case 0x18:return 'o';case 0x19:return 'p';case 0x2C:return 'z';case 0x2D:return 'x';case 0x2E:return 'c';case 0x2F:return 'v';case 0x30:return 'b';case 0x31:return 'n';case 0x32:return 'm';case 0x39:return ' ';default:return 0;}}
-char getk(){while(1){__asm__ volatile("hlt"); unsigned char st=inb(0x64); if(st&1){unsigned char sc=inb(0x60); if(sc==0x0E)return '\b'; if(sc==0x1C)return '\n'; if(sc<0x80){char c=sc2c(sc); if(c)return c;}}}}
-void _kernel_main(){clear(); prc("  ========================================\n",0x0A); prc("   JawaOS v0.2.1 FIX - Binong Banten\n",0x0E); prc("   Ketik 'help'\n",0x07); prc("  ========================================\n\n",0x0A); char in[128]; int idx=0; while(1){prc("jawaos@binong",0x0A); prc("~$ ",0x0B); idx=0; while(1){char c=getk(); if(c=='\n'){in[idx]=0;pc('\n');break;}else if(c=='\b'){if(idx>0){idx--;pc('\b');}}else{if(idx<127){in[idx++]=c;pc(c);}}} if(strcmp_(in,"help")==0){prc("\n  help, clear, echo, about, ls, reboot\n\n",0x0B);}else if(strcmp_(in,"clear")==0){clear();}else if(strncmp_(in,"echo ",5)==0){pr("\n");pr(in+5);pr("\n\n");}else if(strcmp_(in,"about")==0){prc("\n  JawaOS - Alon alon waton kelakon :)\n\n",0x0E);}else if(in[0]==0){}else{prc("\n  not found: ",0x0C);pr(in);pr("\n\n");}}}
+// ========================================
+//  JawaOS v0.2.2 - Binong Banten
+//  Alon alon waton kelakon :)
+// ========================================
+
+volatile char *v = (char *)0xB8000;
+int cx = 0, cy = 0;
+unsigned char col = 0x0F;
+
+// --- Port I/O ---
+unsigned char inb(unsigned short p) {
+    unsigned char r;
+    __asm__ volatile("inb %1, %0" : "=a"(r) : "Nd"(p));
+    return r;
+}
+
+void outb(unsigned short p, unsigned char d) {
+    __asm__ volatile("outb %0, %1" :: "a"(d), "Nd"(p));
+}
+
+// --- VGA Text Mode ---
+void scroll() {
+    if (cy >= 25) {
+        for (int i = 0; i < 24 * 80; i++) {
+            v[i * 2] = v[(i + 80) * 2];
+            v[i * 2 + 1] = v[(i + 80) * 2 + 1];
+        }
+        for (int i = 0; i < 80; i++) {
+            v[(24 * 80 + i) * 2] = ' ';
+            v[(24 * 80 + i) * 2 + 1] = col;
+        }
+        cy = 24;
+    }
+}
+
+void pc(char c) {
+    if (c == '\n') {
+        cx = 0; cy++;
+    } else if (c == '\b') {
+        if (cx > 0) {
+            cx--;
+            v[(cy * 80 + cx) * 2] = ' ';
+        }
+    } else {
+        v[(cy * 80 + cx) * 2] = c;
+        v[(cy * 80 + cx) * 2 + 1] = col;
+        cx++;
+    }
+    if (cx >= 80) { cx = 0; cy++; }
+    scroll();
+}
+
+void pr(const char *s) {
+    for (int i = 0; s[i]; i++) pc(s[i]);
+}
+
+void prc(const char *s, unsigned char c) {
+    unsigned char o = col;
+    col = c;
+    pr(s);
+    col = o;
+}
+
+void clear() {
+    for (int i = 0; i < 80 * 25; i++) {
+        v[i * 2] = ' ';
+        v[i * 2 + 1] = 0x0F;
+    }
+    cx = 0; cy = 0;
+}
+
+// --- String ---
+int strcmp_(const char *a, const char *b) {
+    int i = 0;
+    while (a[i] && b[i] && a[i] == b[i]) i++;
+    return a[i] - b[i];
+}
+
+int strncmp_(const char *a, const char *b, int n) {
+    for (int i = 0; i < n; i++) {
+        if (a[i] != b[i]) return a[i] - b[i];
+        if (!a[i]) return 0;
+    }
+    return 0;
+}
+
+// --- Keyboard PS/2 ---
+char sc2c(unsigned char sc) {
+    switch (sc) {
+        case 0x02: return '1'; case 0x03: return '2';
+        case 0x04: return '3'; case 0x05: return '4';
+        case 0x06: return '5'; case 0x07: return '6';
+        case 0x08: return '7'; case 0x09: return '8';
+        case 0x0A: return '9'; case 0x0B: return '0';
+        case 0x1E: return 'a'; case 0x1F: return 's';
+        case 0x20: return 'd'; case 0x21: return 'f';
+        case 0x22: return 'g'; case 0x23: return 'h';
+        case 0x24: return 'j'; case 0x25: return 'k';
+        case 0x26: return 'l'; case 0x10: return 'q';
+        case 0x11: return 'w'; case 0x12: return 'e';
+        case 0x13: return 'r'; case 0x14: return 't';
+        case 0x15: return 'y'; case 0x16: return 'u';
+        case 0x17: return 'i'; case 0x18: return 'o';
+        case 0x19: return 'p'; case 0x2C: return 'z';
+        case 0x2D: return 'x'; case 0x2E: return 'c';
+        case 0x2F: return 'v'; case 0x30: return 'b';
+        case 0x31: return 'n'; case 0x32: return 'm';
+        case 0x39: return ' ';
+        default: return 0;
+    }
+}
+
+char getk() {
+    while (1) {
+        __asm__ volatile("hlt");
+        unsigned char st = inb(0x64);
+        if (st & 1) {
+            unsigned char sc = inb(0x60);
+            if (sc == 0x0E) return '\b';
+            if (sc == 0x1C) return '\n';
+            if (sc < 0x80) {
+                char c = sc2c(sc);
+                if (c) return c;
+            }
+        }
+    }
+}
+
+// --- MAIN - CUKUP 1 TOK, OJO DOBEL! ---
+void kernel_main() {
+    clear();
+
+    // Logo JAWA OS
+    prc("  /$$$$$                                          /$$$$$$   /$$$$$$ \n", 0x0A);
+    prc(" |__  $$                                         /$$__  $$ /$$__  $$\n", 0x0A);
+    prc("    | $$  /$$$$$$  /$$  /$$  /$$  /$$$$$$       | $$  \\ $$| $$  \\__/\n", 0x0A);
+    prc("    | $$ |____  $$| $$ | $$ | $$ |____  $$      | $$  | $$|  $$$$$$ \n", 0x0E);
+    prc(" /$$  | $$  /$$$$$$$| $$ | $$ | $$  /$$$$$$$      | $$  | $$ \\____  $$\n", 0x0E);
+    prc("| $$  | $$ /$$__  $$| $$ | $$ | $$ /$$__  $$      | $$  | $$ /$$  \\ $$\n", 0x0B);
+    prc("|  $$$$$$/|  $$$$$$$|  $$$$$/$$$$/|  $$$$$$$      |  $$$$$$/|  $$$$$$/\n", 0x0B);
+    prc(" \\______/  \\_______/ \\_____/\\___/  \\_______/       \\______/  \\______/ \n", 0x0B);
+    prc("\n  ========================================\n", 0x0A);
+    prc("   JawaOS v0.2.2 FIX - Binong Banten\n", 0x0E);
+    prc("   Ketik 'help'\n", 0x07);
+    prc("  ========================================\n\n", 0x0A);
+
+    char in[128];
+    int idx = 0;
+
+    while (1) {
+        prc("jawaos@binong", 0x0A);
+        prc("~$ ", 0x0B);
+        idx = 0;
+
+        while (1) {
+            char c = getk();
+            if (c == '\n') { in[idx] = 0; pc('\n'); break; }
+            else if (c == '\b') { if (idx > 0) { idx--; pc('\b'); } }
+            else { if (idx < 127) { in[idx++] = c; pc(c); } }
+        }
+
+        if (strcmp_(in, "help") == 0) {
+            prc("\n  help, clear, echo, about, ls, reboot\n\n", 0x0B);
+        } else if (strcmp_(in, "clear") == 0) {
+            clear();
+        } else if (strncmp_(in, "echo ", 5) == 0) {
+            pr("\n"); pr(in + 5); pr("\n\n");
+        } else if (strcmp_(in, "about") == 0) {
+            prc("\n  JawaOS - Alon alon waton kelakon :)\n\n", 0x0E);
+        } else if (in[0] == 0) {
+        } else {
+            prc("\n  not found: ", 0x0C);
+            pr(in);
+            pr("\n\n");
+        }
+    }
+}
