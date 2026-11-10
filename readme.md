@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Platform-QEMU-red?style=for-the-badge" />
 </p>
 
-<h1 align="center">🇮🇩 JawaOS - A Javanese Inspired Operating System</h1>
+<h1 align="center">JawaOS - A Javanese Inspired Operating System</h1>
 
 <p align="center">
   <i>"Alon-alon waton kelakon" - Slowly but surely, it will be done</i><br>
@@ -30,7 +30,7 @@
 - [x] **Multiboot Bootloader** (`boot.asm`) - GRUB compatible
 - [x] **GDT** (`gdt.asm`) - Global Descriptor Table
 - [x] **Freestanding C Kernel** (`kernel.c`) - No stdlib
-- [x] **Embedded Python GUI** (`GUI/gui.py`) - Loaded as rodata
+- [ ] **Embedded Python GUI** (`GUI/gui.py`) - Loaded as rodata
 - [ ] JFS - Javanese File System
 - [ ] Wayang Desktop Environment
 - [ ] PS/2 Keyboard Driver
@@ -81,7 +81,7 @@ make run
 | :--- | :--- |
 | `make` | Build kernel only |
 | `make run` | Build + Run in QEMU with `-accel tcg` |
-| `make clean` | Remove .o and .bin files |
+| `make clean` (Not Recomended) | Remove .o and .bin files |
 
 ### ❓ Troubleshooting
 
