@@ -6,7 +6,7 @@ OS eksperimental berbahasa Jawa, di-build dari nol pake C & Assembly.
 
 ### ✨ Fitur
 - [x] Bootloader GRUB
-- [x] Pesan error full bahasa Jawa (`panic.h`)
+- [ ] Pesan error full bahasa Jawa (`panic.h`)
 - [x] 32-bit Protected Mode
 
 ### 📁 Struktur Folder
