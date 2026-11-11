@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Platform-QEMU-red?style=for-the-badge" />
 </p>
 
-<h1 align="center">🦅 SambatOS - A Javanese Inspired Operating System</h1>
+<h1 align="center">🦅 JawaOS - A Javanese Inspired Operating System</h1>
 
 <p align="center">
   <i>"Alon-alon waton kelakon" - Slowly but surely, it will be done</i><br>
